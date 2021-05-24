@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="book-manager" />
+        <module name="BookManager2" />
+        <module name="SpringMVCSecurityBookManager" />
+        <module name="pre_BookManager04.30" />
+        <module name="pre_BookManager04.24" />
+        <module name="BookManager" />
+        <module name="SpringMVCSecurityBookReaders" />
+        <module name="StudentAttendance" />
+        <module name="BookReaderSecurity" />
+        <module name="BookManager3" />
+        <module name="post_BookManager04.30" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

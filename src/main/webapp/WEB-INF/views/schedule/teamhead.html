@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="../views/header :: head(~{::title},~{})">
+    <title>Schedule</title>
+</head>
+<body>
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Schedule</h1>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <label>Group:</label>
+            <span th:text="${group.getFullName()}"></span>
+        </li>
+        <li class="list-group-item">
+            <label>Monday Date:</label>
+            <span th:text="${schedule.dateMonday}"></span>
+        </li>
+    </ul>
+
+    <h2 th:if="${#lists.isEmpty(schedule.lessons)}">No lessons</h2>
+
+    <div th:if="${not #lists.isEmpty(schedule.lessons)}" th:each="dayLessons : ${schedule.lessons}">
+
+        <h2 th:text="${T(ru.isu.studentattendance.ScheduleService).getDayOfWeekName(
+                dayLessonsStat.index + 1)}"></h2>
+
+        <div class="list-group">
+
+            <div class="list-group-item">
+                <div th:if="${#lists.isEmpty(dayLessons)}">
+                    <span>No lessons</span>
+                </div>
+
+                <table th:if="${not #lists.isEmpty(dayLessons)}" class="table">
+                    <thead>
+                    <tr>
+                        <th style="width: 20%;">Lesson number</th>
+                        <th style="width: 20%;">Time</th>
+                        <th style="width: 40%;">Subject</th>
+                        <th style="width: 20%;">Attendance</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="lesson : ${dayLessons}">
+
+                        <td th:text="${lessonStat.index + 1}"></td>
+                        <td th:text="${lesson == null ? '&mdash;' : lesson.getFormattedTime()}"></td>
+                        <td th:text="${lesson == null ? '&mdash;' : lesson.subject.name}"></td>
+
+                        <td th:if="${lesson == null}">&mdash;</td>
+                        <td th:if="${lesson != null}">
+                            <a th:if="${not lesson.lessonAttendanceIsFinished}"
+                               th:href="@{/attendance/__${lesson.id}__/edit}">edit</a>
+
+                            <a th:if="${lesson.lessonAttendanceIsFinished}"
+                               th:href="@{/attendance/__${lesson.id}__/show}">show</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <ul class="pager" style="margin: 0 !important;">
+                <li class="previous">
+                    <a th:href="@{/schedule/(date=${prevWeek})}" class="previous">
+                        <span>&larr;</span>Prev Week
+                    </a>
+                </li>
+                <li class="next">
+                    <a th:if="${nextWeek} != null" th:href="@{/schedule/(date=${nextWeek})}" class="next">
+                        Next Week<span>&rarr;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

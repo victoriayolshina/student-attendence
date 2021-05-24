@@ -1,0 +1,20 @@
+h3 {
+    margin: 0px !important;
+    padding:  0px 15px !important;
+}
+
+.table {
+    margin-bottom: 0 !important;
+}
+
+.glyphicon{
+    margin: 3px !important;	
+}
+
+.list-group-item span{
+    padding:  0px 5px;
+}
+
+a {
+    cursor: pointer;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="../views/header :: head(~{::title},~{})">
+    <title>Edit Attendance</title>
+</head>
+<body>
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Edit Attendance</h1>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <label>Subject:</label>
+            <span th:text="${lesson.subject.name}"></span>
+        </li>
+        <li class="list-group-item">
+            <label>Group:</label>
+            <span th:text="${lesson.group.getFullName()}"></span>
+        </li>
+        <li class="list-group-item">
+            <label>Time:</label>
+            <span th:text="${lesson.datetime}"></span>
+        </li>
+    </ul>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="studentAttendance : ${attendance}">
+                    <td>
+                        <span sec:authorize="hasRole('USER')" th:text="${studentAttendance.student.fullname}"></span>
+                        <a sec:authorize="hasRole('ADMIN')" th:text="${studentAttendance.student.fullname}"
+                           th:href="@{/students/__${studentAttendance.student.id}__}"></a>
+                    </td>
+                    <td th:text="${studentAttendance.status.name}"></td>
+                    <td th:text="${studentAttendance.description}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a th:if="${userBoundToOneGroup}" class="btn btn-default" th:href="@{/schedule/}" role="button">Back</a>
+            <a th:if="${!userBoundToOneGroup}" class="btn btn-default" th:href="@{/schedule/__${lesson.group.id}__}" role="button">Back</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

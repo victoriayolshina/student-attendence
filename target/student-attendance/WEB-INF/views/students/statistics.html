@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="../views/header :: head(~{::title},~{})">
+    <title>Attendance Report</title>
+</head>
+<body>
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Attendance Report</h1>
+    </div>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <label>Date:</label>
+            <span th:text="${date}"></span>
+        </li>
+    </ul>
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Group</th>
+                    <th>Attended</th>
+                    <th>Was late</th>
+                    <th>Absent</th>
+                    <th>Was sick</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="groupAttendance : ${attendance}">
+                    <td th:text="${groupAttendance.group.fullName}"></td>
+                    <td th:text="${groupAttendance.attended}"></td>
+                    <td th:text="${groupAttendance.wasLate}"></td>
+                    <td th:text="${groupAttendance.absent}"></td>
+                    <td th:text="${groupAttendance.wasSick}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a class="btn btn-default" th:href="@{/students/}" role="button">Back</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

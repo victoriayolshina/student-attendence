@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Register</h1>
+    </div>
+
+    <form id="register-form" th:action="@{/register}" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input id="firstName" name="firstName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" name="lastName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="pass">Password</label>
+            <input id="pass" type="password" name="password" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="group">Bind to group</label>
+            <select class="form-control" id="group" name="group">
+                <option value="">-ADMIN-</option>
+                <option th:each="group : ${groups}"
+                        th:value="${group.id}"
+                        th:text="${group.getFullName()}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" id="btn-save" class="btn btn-primary">Register</button>
+    </form>
+</div>
+</body>
+</html>

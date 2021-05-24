@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="../views/header :: head(~{::title},~{})">
+    <title>Student Info</title>
+</head>
+<body>
+
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Student Info</h1>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"><label>Full Name:</label>
+            <span th:text="${student.fullname}"></span>
+        </li>
+        <li class="list-group-item"><label>Group:</label>
+            <span th:text="${student.group.getFullName()}"></span>
+        </li>
+
+        <li th:each="status : ${attendance}" class="list-group-item">
+            <label th:text="${status.status.name + ':'}"></label>
+            <span th:text="${status.count}"></span>
+        </li>
+
+        <li class="list-group-item">
+            <a class="btn btn-default" th:href="@{/students/}" role="button">Back</a>
+
+            <a class="btn btn-default" th:href="@{/students/{id}/edit(id=${student.id})}">
+                <span class="glyphicon glyphicon-edit"></span> Edit
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="../views/header :: head(~{::title},~{})">
+    <title>All Students</title>
+</head>
+<body>
+
+<div th:replace="../views/header :: header"></div>
+
+<div class="container">
+    <div class="row">
+        <h1>Students</h1>
+
+        <div class="list-group">
+            <div class="list-group-item">
+                <label>Attendance:</label>
+                <span><a th:href="@{/students/statistics}">show attendance report</a></span>
+            </div>
+        </div>
+
+        <div th:each="groupStudents : ${students}">
+
+            <h2 th:text="${groupStudents[0].group.getFullName()}"></h2>
+
+            <div class="list-group">
+                <div class="list-group-item">
+                    <table id="student-table" class="table">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="student : ${groupStudents}">
+                                <td>
+                                    <span th:if="${student.id == null}" th:text="${student.fullname}"></span>
+                                    <a th:if="${student.getId() != null}" th:text="${student.fullname}" th:href="@{/students/__${student.id}__}"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="list-group-item">
+                    <a class="btn btn-default" th:href="@{/students/create(group=${groupStudents[0].group.id})}">
+                        <span class="glyphicon glyphicon-plus"></span> Create Student
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

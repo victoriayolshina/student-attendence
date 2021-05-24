@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <context:component-scan base-package ="ru.isu.studentattendance"/>
+
+    <bean id="templateResolver"
+          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML" />
+        <property name="cacheable" value="true" />
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+        <property name="enableSpringELCompiler" value="true" />
+        <!--Security addon -->
+        <property name="additionalDialects">
+            <set>
+                <!-- Note the package would change to 'springsecurity[3|4]' if you are using that version -->
+                <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="order" value="1" />
+        <property name="viewNames" value="*" />
+    </bean>
+
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+
+    <!--Data conversion service-->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.data.web.SortHandlerMethodArgumentResolver"/>
+            <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+                <property name="maxPageSize" value="2"/>
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!--Add any other converters here
+        <property name="converters">
+            <list>
+                <bean class="ru.isu.studentattendancendance.converter.LocalDateConverter"/>
+            </list>
+        </property>
+        -->
+    </bean>
+
+    <bean class="org.springframework.data.repository.support.DomainClassConverter">
+        <constructor-arg name="conversionService" ref="conversionService"/>
+    </bean>
+
+    <!--Securiry Pre/Post-->
+    <security:global-method-security pre-post-annotations="enabled"/>
+</beans>
